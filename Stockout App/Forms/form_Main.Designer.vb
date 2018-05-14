@@ -415,8 +415,9 @@ Partial Class form_Main
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.combo_rep)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MaximizeBox = False
         Me.Name = "form_Main"
-        Me.Text = "AUGE Stockout App v1.02"
+        Me.Text = "AUGE Stockout App v1.03"
         CType(Me.CustomerDBTBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.StockoutDBDataSet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RepDBTBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
