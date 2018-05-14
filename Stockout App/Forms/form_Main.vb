@@ -57,8 +57,11 @@
 
         'validate data
         If combo_rep.Text = "" Then
+            'combo_rep.BackColor = ColorTranslator.FromHtml("#FF0000")
             MsgBox("Please select Sales Rep")
             Exit Sub
+            'Else
+            'combo_rep.BackColor = ColorTranslator.FromHtml("#FFFFFF")
         End If
         If combo_pn.Text = "" Then
             MsgBox("Please select a Part Number")
@@ -78,6 +81,10 @@
         End If
         If text_reason.Text = "" Then
             MsgBox("Please fill out the Stockout Reason")
+            Exit Sub
+        End If
+        If text_demand.Text = "" Then
+            text_demand.Text = 0
             Exit Sub
         End If
 

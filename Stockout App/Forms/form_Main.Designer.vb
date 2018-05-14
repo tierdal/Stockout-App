@@ -222,6 +222,7 @@ Partial Class form_Main
         'text_description
         '
         Me.text_description.DataBindings.Add(New System.Windows.Forms.Binding("Text", Me.ItemDBTBindingSource, "itemDESC", True))
+        Me.text_description.ForeColor = System.Drawing.Color.Black
         Me.text_description.Location = New System.Drawing.Point(119, 46)
         Me.text_description.Multiline = True
         Me.text_description.Name = "text_description"
@@ -415,7 +416,7 @@ Partial Class form_Main
         Me.Controls.Add(Me.combo_rep)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "form_Main"
-        Me.Text = "AUGE Stockout App v1.0"
+        Me.Text = "AUGE Stockout App v1.02"
         CType(Me.CustomerDBTBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.StockoutDBDataSet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RepDBTBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
