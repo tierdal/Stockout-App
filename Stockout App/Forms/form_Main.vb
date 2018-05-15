@@ -1,4 +1,6 @@
-﻿Public Class form_Main
+﻿Imports System.Net.Mail
+
+Public Class form_Main
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'TODO: This line of code loads data into the 'StockoutDBDataSet.itemDBT' table. You can move, or remove it, as needed.
@@ -28,7 +30,7 @@
 
     End Sub
 
-    Sub clear_form()
+    Sub Clear_form()
         'set all fields to defaut values
         combo_rep.SelectedIndex = -1
         combo_pn.SelectedIndex = -1
@@ -40,6 +42,30 @@
         text_needed.Text = ""
         text_reason.Text = ""
         check_alt.Checked = False
+    End Sub
+
+    Sub Send_Email_Notification()
+        Try
+            Dim Smtp_Server As New SmtpClient
+            Dim e_mail As New MailMessage()
+            Smtp_Server.UseDefaultCredentials = False
+            Smtp_Server.Credentials = New Net.NetworkCredential("noreply@auge.com", "@UGEusanr1")
+            Smtp_Server.Port = 587
+            Smtp_Server.EnableSsl = False
+            Smtp_Server.Host = "smtp.auge.com"
+
+            e_mail = New MailMessage()
+            e_mail.From = New MailAddress("noreply@auge.com")
+            e_mail.To.Add("justin.travis@auge.com")
+            e_mail.Subject = "New Stockout Notification"
+            e_mail.IsBodyHtml = False
+            e_mail.Body = combo_rep.Text & " has just reported a new stockout."
+            Smtp_Server.Send(e_mail)
+            MsgBox("Mail Sent")
+
+        Catch error_t As Exception
+            MsgBox("Could not send email: " & error_t.ToString)
+        End Try
     End Sub
 
     Private Sub button_submit_Click(sender As Object, e As EventArgs) Handles button_submit.Click
@@ -107,9 +133,10 @@
         Try
             sql_conn.Open()
             sql_query.ExecuteNonQuery()
+            Send_Email_Notification()
             MsgBox("Your stockout notice has been submitted! Thank You!")
             sql_conn.Close()
-            clear_form()
+            Clear_form()
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
@@ -118,7 +145,7 @@
 
     Private Sub button_clear_Click(sender As Object, e As EventArgs) Handles button_clear.Click
         'clear form button
-        clear_form()
+        Clear_form()
     End Sub
     Private Sub button_exit_Click(sender As Object, e As EventArgs) Handles button_exit.Click
         'exit button
