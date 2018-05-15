@@ -45,18 +45,72 @@ Public Class form_Main
     End Sub
 
     Sub Send_Email_Notification()
+
+        'define vars
+        Dim sql_conn As New OleDb.OleDbConnection
+        Dim sql_query_smtp_Host As New OleDb.OleDbCommand
+        Dim sql_query_smtp_User As New OleDb.OleDbCommand
+        Dim sql_query_smtp_Pass As New OleDb.OleDbCommand
+        Dim sql_query_smtp_From As New OleDb.OleDbCommand
+        Dim sql_query_smtp_To As New OleDb.OleDbCommand
+
+        Dim smtp_Host As String
+        Dim smtp_User As String
+        Dim smtp_Pass As String
+        Dim smtp_From As String
+        Dim smtp_To As String
+
+        Dim conn_string As String
+
+        'define SQL connection
+        conn_string = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=A:\Inventory Center\StockOut App\db\stockoutDB.accdb"
+        sql_conn.ConnectionString = conn_string
+        sql_query_smtp_Host.Connection = sql_conn
+        sql_query_smtp_User.Connection = sql_conn
+        sql_query_smtp_Pass.Connection = sql_conn
+        sql_query_smtp_From.Connection = sql_conn
+        sql_query_smtp_To.Connection = sql_conn
+
+        sql_query_smtp_Host.CommandText = "SELECT smtp_Host FROM smtpDBT WHERE smtp_Main = @Main"
+        sql_query_smtp_User.CommandText = "SELECT smtp_User FROM smtpDBT WHERE smtp_Main = @Main"
+        sql_query_smtp_Pass.CommandText = "SELECT smtp_Pass FROM smtpDBT WHERE smtp_Main = @Main"
+        sql_query_smtp_From.CommandText = "SELECT smtp_From FROM smtpDBT WHERE smtp_Main = @Main"
+        sql_query_smtp_To.CommandText = "SELECT smtp_To FROM smtpDBT WHERE smtp_Main = @Main"
+
+        sql_query_smtp_Host.Parameters.AddWithValue("@Main", "MAIN")
+        sql_query_smtp_User.Parameters.AddWithValue("@Main", "MAIN")
+        sql_query_smtp_Pass.Parameters.AddWithValue("@Main", "MAIN")
+        sql_query_smtp_From.Parameters.AddWithValue("@Main", "MAIN")
+        sql_query_smtp_To.Parameters.AddWithValue("@Main", "MAIN")
+
+        Try
+            sql_conn.Open()
+            smtp_Host = Convert.ToString(sql_query_smtp_Host.ExecuteScalar())
+            smtp_User = Convert.ToString(sql_query_smtp_User.ExecuteScalar())
+            smtp_Pass = Convert.ToString(sql_query_smtp_Pass.ExecuteScalar())
+            smtp_From = Convert.ToString(sql_query_smtp_From.ExecuteScalar())
+            smtp_To = Convert.ToString(sql_query_smtp_To.ExecuteScalar())
+
+            MsgBox(smtp_Host & " " & smtp_User & " " & smtp_Pass & " " & smtp_From & " " & smtp_To)
+            sql_conn.Close()
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            Exit Sub
+        End Try
+
         Try
             Dim Smtp_Server As New SmtpClient
             Dim e_mail As New MailMessage()
             Smtp_Server.UseDefaultCredentials = False
-            Smtp_Server.Credentials = New Net.NetworkCredential("noreply@auge.com", "@UGEusanr1")
+            Smtp_Server.Credentials = New Net.NetworkCredential(smtp_User, smtp_Pass)
             Smtp_Server.Port = 587
             Smtp_Server.EnableSsl = False
-            Smtp_Server.Host = "smtp.auge.com"
+            Smtp_Server.Host = smtp_Host
 
             e_mail = New MailMessage()
-            e_mail.From = New MailAddress("noreply@auge.com")
-            e_mail.To.Add("justin.travis@auge.com")
+            e_mail.From = New MailAddress(smtp_From)
+            e_mail.To.Add(smtp_To)
             e_mail.Subject = "New Stockout Notification"
             e_mail.IsBodyHtml = False
             e_mail.Body = combo_rep.Text & " has just reported a new stockout."

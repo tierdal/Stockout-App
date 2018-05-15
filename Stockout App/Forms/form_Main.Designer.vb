@@ -216,6 +216,7 @@ Partial Class form_Main
         Me.TableAdapterManager.customerDBTTableAdapter = Me.CustomerDBTTableAdapter
         Me.TableAdapterManager.itemDBTTableAdapter = Me.ItemDBTTableAdapter
         Me.TableAdapterManager.repDBTTableAdapter = Me.RepDBTTableAdapter
+        Me.TableAdapterManager.smtpDBTTableAdapter = Nothing
         Me.TableAdapterManager.stockoutDBTTableAdapter = Nothing
         Me.TableAdapterManager.UpdateOrder = Stockout_App.stockoutDBDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete
         '
@@ -411,13 +412,13 @@ Partial Class form_Main
         Me.Controls.Add(Me.text_comment)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.lab_rep)
-        Me.Controls.Add(Me.Pull_item_descToolStrip)
         Me.Controls.Add(Me.GroupBox1)
+        Me.Controls.Add(Me.Pull_item_descToolStrip)
         Me.Controls.Add(Me.combo_rep)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.Name = "form_Main"
-        Me.Text = "AUGE Stockout App v1.03"
+        Me.Text = "AUGE Stockout App v1.1"
         CType(Me.CustomerDBTBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.StockoutDBDataSet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RepDBTBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
